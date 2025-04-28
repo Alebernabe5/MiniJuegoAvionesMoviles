@@ -18,6 +18,7 @@ UserSettings/
 *.pidb
 *.booproj
 *.svd
+.vs/
 
 # Archivos temporales del sistema operativo
 .DS_Store
