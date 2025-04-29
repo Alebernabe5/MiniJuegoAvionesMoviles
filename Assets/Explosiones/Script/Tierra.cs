@@ -6,6 +6,10 @@ public class Tierra : MonoBehaviour
     [SerializeField]
     private GameObject explosiones;
 
+
+    [SerializeField]
+    private GameObject acumulador;
+
     private int valorRR;
 
     private int i;
@@ -49,6 +53,7 @@ public class Tierra : MonoBehaviour
         }
 
         Destroy(other.gameObject); //Destruye el objeto que choca
+        acumulador.gameObject.GetComponent<UIController>().MostrarPanelDerrota();
        // Destroy(this.gameObject); //Destruye la propia nave
     }
 }

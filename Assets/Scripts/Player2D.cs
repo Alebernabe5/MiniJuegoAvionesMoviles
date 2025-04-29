@@ -1,7 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player2D : MonoBehaviour
 {
+
+    [SerializeField]
+    private GameObject acumulador;
 
     [SerializeField]
     private FloatingJoystick fj;
@@ -24,13 +28,31 @@ public class Player2D : MonoBehaviour
 
     private int valorRRMisil;
 
+    private float velocidadDisparo;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        velocidadDisparo = 1.0f;
         valorRRMisil = 0;
         valorRR = 0;
-        InvokeRepeating("Disparar", 0.0f, 1.0f);
+        //InvokeRepeating("Disparar", 0.0f, 1.0f);
+        StartCoroutine(DispararMisil());
+    }
+
+    IEnumerator DispararMisil()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(velocidadDisparo);
+            velocidadDisparo = velocidadDisparo - 0.001f;
+            if (velocidadDisparo < 0.3f)
+            {
+                velocidadDisparo = 0.5f;
+            }
+            Disparar();
+        }
     }
 
     public void Disparar()
@@ -82,6 +104,7 @@ public class Player2D : MonoBehaviour
             }
 
             Destroy(other.gameObject); //Destruye el objeto que choca
+            acumulador.gameObject.GetComponent<UIController>().MostrarPanelDerrota();
             Destroy(this.gameObject); //Destruye la propia nave
         }
     }

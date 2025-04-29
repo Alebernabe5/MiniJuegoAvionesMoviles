@@ -3,6 +3,9 @@ using UnityEngine;
 public class MisilPlayer : MonoBehaviour
 {
     [SerializeField]
+    private GameObject acumulador;
+
+    [SerializeField]
     private GameObject explosionesMisiles;
 
     [SerializeField]
@@ -44,6 +47,7 @@ public class MisilPlayer : MonoBehaviour
     {
         Debug.Log(other.gameObject.name);
 
+        acumulador.gameObject.GetComponent<UIController>().ActualizarPuntuacion(1);
         sonidos[0].gameObject.GetComponent<AudioSource>().Play();
        
         explosionesMisiles.gameObject.transform.GetChild(valorRR).gameObject.transform.position = other.gameObject.transform.position;
