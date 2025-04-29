@@ -13,6 +13,9 @@ public class Player2D : MonoBehaviour
     private GameObject explosiones;
 
     [SerializeField]
+    private GameObject[] sonidos;
+
+    [SerializeField]
     private GameObject misilesPlayer;
 
     private int valorRR;
@@ -32,6 +35,7 @@ public class Player2D : MonoBehaviour
 
     public void Disparar()
     {
+        sonidos[1].gameObject.GetComponent<AudioSource>().Play(); //Reproduzco el sonido
         misilesPlayer.gameObject.transform.GetChild(valorRRMisil).gameObject.transform.position = this.gameObject.transform.position; //Cojo el misil y lo posiciono en el player 
         misilesPlayer.gameObject.transform.GetChild(valorRRMisil).gameObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0.0f, 10.0f);
         valorRRMisil++;
@@ -56,7 +60,7 @@ public class Player2D : MonoBehaviour
     {
         for (i = 0; i < explosiones.gameObject.transform.childCount; i++)
         {
-            explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(false);
+            explosiones.gameObject.transform.GetChild(i).gameObject.SetActive(false);
         }
 
     }
@@ -66,6 +70,7 @@ public class Player2D : MonoBehaviour
         Debug.Log("El objeto es: "+ other.gameObject.name);
         if (other.gameObject.tag != "MisilPlayer")
         {
+            sonidos[0].gameObject.GetComponent<AudioSource>().Play();
             explosiones.gameObject.transform.GetChild(valorRR).gameObject.transform.position = this.gameObject.transform.position;
             explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(true); //Active el sistema de particulas
             Invoke("OcultarExplosion", 0.3f);

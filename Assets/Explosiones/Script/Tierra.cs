@@ -10,6 +10,9 @@ public class Tierra : MonoBehaviour
 
     private int i;
 
+    [SerializeField]
+    private GameObject sonidoExplosion;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,7 +28,7 @@ public class Tierra : MonoBehaviour
     {
         for (i = 0; i < explosiones.gameObject.transform.childCount; i++)
         {
-            explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(false);
+            explosiones.gameObject.transform.GetChild(i).gameObject.SetActive(false);
         }
 
     }
@@ -33,6 +36,7 @@ public class Tierra : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("El objeto es: " + other.gameObject.name);
+        sonidoExplosion.gameObject.GetComponent<AudioSource>().Play();
 
         explosiones.gameObject.transform.GetChild(valorRR).gameObject.transform.position = other.gameObject.transform.position;
         explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(true); //Active el sistema de particulas
