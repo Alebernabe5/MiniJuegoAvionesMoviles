@@ -12,15 +12,35 @@ public class Player2D : MonoBehaviour
     [SerializeField]
     private GameObject explosiones;
 
+    [SerializeField]
+    private GameObject misilesPlayer;
+
     private int valorRR;
 
     private int i;
+
+    private int valorRRMisil;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        valorRRMisil = 0;
         valorRR = 0;
+        InvokeRepeating("Disparar", 0.0f, 1.0f);
+    }
+
+    public void Disparar()
+    {
+        misilesPlayer.gameObject.transform.GetChild(valorRRMisil).gameObject.transform.position = this.gameObject.transform.position; //Cojo el misil y lo posiciono en el player 
+        misilesPlayer.gameObject.transform.GetChild(valorRRMisil).gameObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0.0f, 10.0f);
+        valorRRMisil++;
+
+        if (valorRRMisil >= misilesPlayer.gameObject.transform.childCount)
+        {
+            valorRRMisil = 0;
+        }
+        
     }
 
     // Update is called once per frame
@@ -44,18 +64,20 @@ public class Player2D : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("El objeto es: "+ other.gameObject.name);
-
-        explosiones.gameObject.transform.GetChild(valorRR).gameObject.transform.position = this.gameObject.transform.position;
-        explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(true); //Active el sistema de particulas
-        Invoke("OcultarExplosion", 0.3f);
-
-        valorRR++;
-        if (valorRR >= explosiones.gameObject.transform.childCount)
+        if (other.gameObject.tag != "MisilPlayer")
         {
-            valorRR = 0;
-        }
+            explosiones.gameObject.transform.GetChild(valorRR).gameObject.transform.position = this.gameObject.transform.position;
+            explosiones.gameObject.transform.GetChild(valorRR).gameObject.SetActive(true); //Active el sistema de particulas
+            Invoke("OcultarExplosion", 0.3f);
 
-        Destroy(other.gameObject); //Destruye el objeto que choca
-        Destroy(this.gameObject); //Destruye la propia nave
+            valorRR++;
+            if (valorRR >= explosiones.gameObject.transform.childCount)
+            {
+                valorRR = 0;
+            }
+
+            Destroy(other.gameObject); //Destruye el objeto que choca
+            Destroy(this.gameObject); //Destruye la propia nave
+        }
     }
 }

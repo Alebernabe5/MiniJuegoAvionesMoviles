@@ -38,10 +38,16 @@ public class ControladorObjetosDanyo : MonoBehaviour
         listadoObjetosDanyo[listadoAleatorio].gameObject.transform.GetChild(valorRR[listadoAleatorio]).gameObject.transform.position = new Vector2(posXAleatoria, limiteI.gameObject.transform.position.y);
         listadoObjetosDanyo[listadoAleatorio].gameObject.transform.GetChild(valorRR[listadoAleatorio]).gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 
-
-
-
         valorRR[listadoAleatorio]++;
+
+        if (valorRR[listadoAleatorio] >= listadoObjetosDanyo[listadoAleatorio].gameObject.transform.childCount)
+        {
+            valorRR[listadoAleatorio] = 0;
+        }
+
+
+
+        
 
     }
 
