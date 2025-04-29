@@ -1,3 +1,4 @@
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 
 public class ControladorObjetosDanyo : MonoBehaviour
@@ -10,34 +11,37 @@ public class ControladorObjetosDanyo : MonoBehaviour
     private GameObject limiteD;
 
     [SerializeField]
-    private GameObject asteroides1;
+    private GameObject [] listadoObjetosDanyo;
 
-    private int posAsteroides1;
+    private int[] valorRR;
 
-    [SerializeField]
-    private GameObject asteroides2;
+    private int listadoAleatorio;
 
-    [SerializeField]
-    private GameObject asteroides3;
+    private float posXAleatoria;
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        posAsteroides1 = 0;
-        InvokeRepeating("CambiarPosicionAsteroides1", 0.0f, 2.0f); //Te permite invocar las acciones cada x tiempo
+        valorRR = new int [listadoObjetosDanyo.Length]; //Hay tanto RR como arrays seleccionados
+        InvokeRepeating("CambiarPosicion", 0.0f, 2.0f); //Te permite invocar las acciones cada x tiempo
 
 
     }
-    public void CambiarPosicionAsteroides1()
+    public void CambiarPosicion()
     {
+        posXAleatoria = Random.Range(limiteI.gameObject.transform.position.x, limiteD.gameObject.transform.position.x);
+        listadoAleatorio = Random.Range(0,listadoObjetosDanyo.Length);
 
-        asteroides1.gameObject.transform.GetChild(posAsteroides1).gameObject.transform.position = new Vector2(limiteI.gameObject.transform.position.x, limiteI.gameObject.transform.position.y);
-        asteroides1.gameObject.transform.GetChild(posAsteroides1).gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
-        posAsteroides1++;
-        if (posAsteroides1 >= asteroides1.gameObject.transform.childCount)
-           {
-            posAsteroides1 = 0;
-            }
+        listadoObjetosDanyo[listadoAleatorio].gameObject.transform.GetChild(valorRR[listadoAleatorio]).gameObject.transform.position = new Vector2(posXAleatoria, limiteI.gameObject.transform.position.y);
+        listadoObjetosDanyo[listadoAleatorio].gameObject.transform.GetChild(valorRR[listadoAleatorio]).gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.2f;
+
+
+
+
+        valorRR[listadoAleatorio]++;
 
     }
 
